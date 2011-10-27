@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
@@ -46,6 +46,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.1-3
+- Rebuilt for glibc bug#747377
+
 * Mon May 23 2011 Petr Sabata <psabata@redhat.com> - 0.1.1-2
 - We have a conflict with openstack-swift (#693363)
 
