@@ -1,6 +1,6 @@
 Name:           st
-Version:        0.1.1
-Release:        4%{?dist}
+Version:        0.2
+Release:        1%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
@@ -11,6 +11,8 @@ Source1:        %{name}.desktop
 Patch0:         st-0.1.1-debug.patch
 # Make sure we use an unicode capable font
 Patch1:         st-0.1.1-terminus.patch
+# Upstream didn't bump the version in config.mk
+Patch2:         st-0.2-version.patch
 BuildRequires:  libX11-devel
 BuildRequires:  ncurses
 BuildRequires:  desktop-file-utils
@@ -25,6 +27,7 @@ A simple virtual terminal emulator for X which sucks less.
 %setup -q
 %patch0 -p1 -b .debug
 %patch1 -p1 -b .terminus
+%patch2 -p1 -b .version
 # Do not install terminfo into the build environment
 sed -i '/@tic -s st.info/d' Makefile
 
@@ -38,7 +41,6 @@ make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
 %files
-%defattr(-,root,root,-)
 %doc LICENSE README
 %{_bindir}/*
 %{_mandir}/man1/*
@@ -46,6 +48,10 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Wed Feb 08 2012 Petr Šabata <contyk@redhat.com> - 0.2-1
+- 0.2 bump
+- Drop defattr
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
