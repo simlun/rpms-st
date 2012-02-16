@@ -1,14 +1,13 @@
 diff --git a/config.def.h b/config.def.h
-index ced3000..438e0b5 100644
+index 047b5d1..0cdc282 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,7 +1,7 @@
- #define TAB 8
- #define TNAME "st-256color"
+@@ -1,6 +1,6 @@
+ 
 -#define FONT "-*-*-medium-r-*-*-*-120-75-75-*-60-*-*"
 -#define BOLDFONT "-*-*-bold-r-*-*-*-120-75-75-*-60-*-*"
 +#define FONT "-*-terminus-medium-*-*-*-16-*-*-*-*-*-iso10646-*"
 +#define BOLDFONT "-*-terminus-bold-*-*-*-16-*-*-*-*-*-iso10646-*"
- #define BORDER 2
- #define SHELL "/bin/sh"
  
+ /* Space in pixels around the terminal buffer */
+ #define BORDER 2

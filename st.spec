@@ -1,5 +1,5 @@
 Name:           st
-Version:        0.2
+Version:        0.2.1
 Release:        1%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
@@ -10,9 +10,7 @@ Source1:        %{name}.desktop
 # Generate debuginfo
 Patch0:         st-0.1.1-debug.patch
 # Make sure we use an unicode capable font
-Patch1:         st-0.1.1-terminus.patch
-# Upstream didn't bump the version in config.mk
-Patch2:         st-0.2-version.patch
+Patch1:         st-0.2.1-terminus.patch
 BuildRequires:  libX11-devel
 BuildRequires:  ncurses
 BuildRequires:  desktop-file-utils
@@ -27,7 +25,6 @@ A simple virtual terminal emulator for X which sucks less.
 %setup -q
 %patch0 -p1 -b .debug
 %patch1 -p1 -b .terminus
-%patch2 -p1 -b .version
 # Do not install terminfo into the build environment
 sed -i '/@tic -s st.info/d' Makefile
 
@@ -48,6 +45,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Thu Feb 16 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-1
+- 0.2.1 bump
+
 * Wed Feb 08 2012 Petr Šabata <contyk@redhat.com> - 0.2-1
 - 0.2 bump
 - Drop defattr
