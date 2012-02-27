@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
@@ -15,6 +15,7 @@ BuildRequires:  libX11-devel
 BuildRequires:  ncurses
 BuildRequires:  desktop-file-utils
 Requires:       terminus-fonts
+Requires:       ncurses-terms
 # /usr/bin/st, rhbz#693363
 Conflicts:      openstack-swift
 
@@ -25,7 +26,7 @@ A simple virtual terminal emulator for X which sucks less.
 %setup -q
 %patch0 -p1 -b .debug
 %patch1 -p1 -b .terminus
-# Do not install terminfo into the build environment
+# Do not install terminfo
 sed -i '/@tic -s st.info/d' Makefile
 
 %build
@@ -33,7 +34,6 @@ make %{?_smp_mflags}
 
 %install
 mkdir -p %{buildroot}%{_datadir}/terminfo/s
-tic -s -o %{buildroot}%{_datadir}/terminfo/ %{name}.info
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
@@ -41,10 +41,13 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %doc LICENSE README
 %{_bindir}/*
 %{_mandir}/man1/*
-%{_datadir}/terminfo/s
 %{_datadir}/applications
 
 %changelog
+* Mon Feb 27 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-2
+- Do not install terminfo entries since those are already included in the
+  ncurses package (#797828)
+
 * Thu Feb 16 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-1
 - 0.2.1 bump
 
