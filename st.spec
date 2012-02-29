@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
@@ -15,7 +15,7 @@ BuildRequires:  libX11-devel
 BuildRequires:  ncurses
 BuildRequires:  desktop-file-utils
 Requires:       terminus-fonts
-Requires:       ncurses-terms
+Requires:       ncurses-term
 # /usr/bin/st, rhbz#693363
 Conflicts:      openstack-swift
 
@@ -44,6 +44,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Wed Feb 29 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-3
+- Correct the ncurses-term dependency
+
 * Mon Feb 27 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-2
 - Do not install terminfo entries since those are already included in the
   ncurses package (#797828)
