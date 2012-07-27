@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
@@ -44,6 +44,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Wed Feb 29 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-3
 - Correct the ncurses-term dependency
 
