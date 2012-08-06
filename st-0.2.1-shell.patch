@@ -1,0 +1,21 @@
+
+# HG changeset patch
+# User Aurélien Aptel <aurelien.aptel@gmail.com>
+# Date 1329416686 -3600
+# Node ID 9692c9452e2c29d19c6cf68b2cdcabe11c20b58b
+# Parent  ad255bf6ccf2d31c6d447d52f4da9181642a6fe7
+use SHELL as default shell.
+
+diff -r ad255bf6ccf2 -r 9692c9452e2c st.c
+--- a/st.c	Thu Feb 16 01:06:45 2012 +0100
++++ b/st.c	Thu Feb 16 19:24:46 2012 +0100
+@@ -709,7 +709,7 @@
+ 	char **args;
+ 	char *envshell = getenv("SHELL");
+ 
+-	DEFAULT(envshell, "sh");
++	DEFAULT(envshell, SHELL);
+ 	putenv("TERM="TNAME);
+ 	args = opt_cmd ? opt_cmd : (char*[]){envshell, "-i", NULL};
+ 	execvp(args[0], args);
+

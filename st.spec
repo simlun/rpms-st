@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.2.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
@@ -11,7 +11,13 @@ Source1:        %{name}.desktop
 Patch0:         st-0.1.1-debug.patch
 # Make sure we use an unicode capable font
 Patch1:         st-0.2.1-terminus.patch
+# Utilize SHELL
+Patch2:         st-0.2.1-shell.patch
+# XDBE
+Patch3:         st-0.2.1-xdbe.patch
+Patch4:         st-0.2.1-xdbe-border.patch
 BuildRequires:  libX11-devel
+BuildRequires:  libXext-devel
 BuildRequires:  ncurses
 BuildRequires:  desktop-file-utils
 Requires:       terminus-fonts
@@ -26,6 +32,9 @@ A simple virtual terminal emulator for X which sucks less.
 %setup -q
 %patch0 -p1 -b .debug
 %patch1 -p1 -b .terminus
+%patch2 -p1 -b .shell
+%patch3 -p1 -b .xdbe
+%patch4 -p1 -b .xdbe-border
 # Do not install terminfo
 sed -i '/@tic -s st.info/d' Makefile
 
@@ -44,6 +53,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Mon Aug 06 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-5
+- Include the latest upstream features
+
 * Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 

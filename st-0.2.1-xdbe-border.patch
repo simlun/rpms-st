@@ -1,0 +1,63 @@
+
+# HG changeset patch
+# User Brandon Invergo <brandon@invergo.net>
+# Date 1343998000 -7200
+# Node ID 9ff727a4b890713396b8dcdcf6c1e0905c5d4115
+# Parent  dcba87365e02f4a5b81445e2ae99b29bf68bb9ba
+apply post-XDBE patch BORDER fix
+
+diff -r dcba87365e02 -r 9ff727a4b890 st.c
+--- a/st.c	Sat Jul 28 14:27:26 2012 +0200
++++ b/st.c	Fri Aug 03 14:46:40 2012 +0200
+@@ -186,8 +186,6 @@
+ 	int scr;
+ 	int w;	/* window width */
+ 	int h;	/* window height */
+-	int bufw; /* pixmap width  */
+-	int bufh; /* pixmap height */
+ 	int ch; /* char height */
+ 	int cw; /* char width  */
+ 	char state; /* focus, redraw, visible */
+@@ -1621,8 +1619,8 @@
+ 
+ void
+ xresize(int col, int row) {
+-	xw.bufw = MAX(1, col * xw.cw);
+-	xw.bufh = MAX(1, row * xw.ch);
++	xw.w = MAX(1, 2*BORDER + col * xw.cw);
++	xw.h = MAX(1, 2*BORDER + row * xw.ch);
+ }
+ 
+ void
+@@ -1671,7 +1669,7 @@
+ xclear(int x1, int y1, int x2, int y2) {
+ 	XSetForeground(xw.dpy, dc.gc, dc.col[IS_SET(MODE_REVERSE) ? DefaultFG : DefaultBG]);
+ 	XFillRectangle(xw.dpy, xw.buf, dc.gc,
+-	               x1 * xw.cw, y1 * xw.ch,
++	               BORDER + x1 * xw.cw, BORDER + y1 * xw.ch,
+ 	               (x2-x1+1) * xw.cw, (y2-y1+1) * xw.ch);
+ }
+ 
+@@ -1757,10 +1755,8 @@
+ 	xloadcols();
+ 
+ 	/* window - default size */
+-	xw.bufh = term.row * xw.ch;
+-	xw.bufw = term.col * xw.cw;
+-	xw.h = xw.bufh + 2*BORDER;
+-	xw.w = xw.bufw + 2*BORDER;
++	xw.h = 2*BORDER + term.row * xw.ch;
++	xw.w = 2*BORDER + term.col * xw.cw;
+ 
+ 	attrs.background_pixel = dc.col[DefaultBG];
+ 	attrs.border_pixel = dc.col[DefaultBG];
+@@ -1807,7 +1803,7 @@
+ void
+ xdraws(char *s, Glyph base, int x, int y, int charlen, int bytelen) {
+ 	int fg = base.fg, bg = base.bg, temp;
+-	int winx = x*xw.cw, winy = y*xw.ch + dc.font.ascent, width = charlen*xw.cw;
++	int winx = BORDER+x*xw.cw, winy = BORDER+y*xw.ch + dc.font.ascent, width = charlen*xw.cw;
+ 	XFontSet fontset = dc.font.set;
+ 	int i;
+ 	
+
