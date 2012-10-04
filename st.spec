@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.2.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
@@ -22,8 +22,6 @@ BuildRequires:  ncurses
 BuildRequires:  desktop-file-utils
 Requires:       terminus-fonts
 Requires:       ncurses-term
-# /usr/bin/st, rhbz#693363
-Conflicts:      openstack-swift
 
 %description
 A simple virtual terminal emulator for X which sucks less.
@@ -53,6 +51,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Thu Oct 04 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-6
+- Remove the obsolete conflict with openstack-swift (#857891)
+
 * Mon Aug 06 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-5
 - Include the latest upstream features
 
