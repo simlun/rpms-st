@@ -1,38 +1,24 @@
 Name:           st
-Version:        0.2.1
-Release:        6%{?dist}
+Version:        0.3
+Release:        1%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
-URL:            http://st.suckless.org/
-Source0:        http://hg.suckless.org/%{name}/archive/%{version}.tar.gz
+URL:            http://%{name}.suckless.org/
+Source0:        http://dl.suckless.org/%{name}/%{name}-%{version}.tar.gz
 Source1:        %{name}.desktop
-# Generate debuginfo
-Patch0:         st-0.1.1-debug.patch
-# Make sure we use an unicode capable font
-Patch1:         st-0.2.1-terminus.patch
-# Utilize SHELL
-Patch2:         st-0.2.1-shell.patch
-# XDBE
-Patch3:         st-0.2.1-xdbe.patch
-Patch4:         st-0.2.1-xdbe-border.patch
 BuildRequires:  libX11-devel
 BuildRequires:  libXext-devel
+BuildRequires:  libXft-devel
 BuildRequires:  ncurses
 BuildRequires:  desktop-file-utils
-Requires:       terminus-fonts
-Requires:       ncurses-term
+Requires:       font(liberationmono)
 
 %description
 A simple virtual terminal emulator for X which sucks less.
 
 %prep
 %setup -q
-%patch0 -p1 -b .debug
-%patch1 -p1 -b .terminus
-%patch2 -p1 -b .shell
-%patch3 -p1 -b .xdbe
-%patch4 -p1 -b .xdbe-border
 # Do not install terminfo
 sed -i '/@tic -s st.info/d' Makefile
 
@@ -51,6 +37,12 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Mon Nov 05 2012 Petr Šabata <contyk@redhat.com> - 0.3-1
+- 0.3 bump
+- Switch to Xft
+- Our terminfo should now be a part of ncurses; do not require ncurses-term
+- Update source URL
+
 * Thu Oct 04 2012 Petr Šabata <contyk@redhat.com> - 0.2.1-6
 - Remove the obsolete conflict with openstack-swift (#857891)
 
