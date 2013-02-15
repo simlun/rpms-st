@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        BSD
@@ -37,6 +37,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Fri Feb 15 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Mon Nov 05 2012 Petr Šabata <contyk@redhat.com> - 0.3-1
 - 0.3 bump
 - Switch to Xft
