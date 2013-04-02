@@ -1,12 +1,13 @@
 Name:           st
-Version:        0.3
+Version:        0.4
 Release:        1%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
-License:        BSD
+License:        MIT
 URL:            http://%{name}.suckless.org/
 Source0:        http://dl.suckless.org/%{name}/%{name}-%{version}.tar.gz
 Source1:        %{name}.desktop
+Patch0:         %{name}-0.4-optflags.patch
 BuildRequires:  libX11-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXft-devel
@@ -19,8 +20,7 @@ A simple virtual terminal emulator for X which sucks less.
 
 %prep
 %setup -q
-# Do not install terminfo
-sed -i '/@tic -s st.info/d' Makefile
+%patch0 -p1
 
 %build
 make %{?_smp_mflags}
@@ -31,12 +31,18 @@ make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
 %files
-%doc LICENSE README
+%doc LICENSE README TODO st.info
 %{_bindir}/*
 %{_mandir}/man1/*
 %{_datadir}/applications
 
 %changelog
+* Tue Apr 02 2013 Petr Šabata <contyk@redhat.com> - 0.4-1
+- 0.4 bump
+- License change to MIT
+- Switching back to Xinerama
+- Include terminfo in doc so users can build it themselves if needed
+
 * Mon Nov 05 2012 Petr Šabata <contyk@redhat.com> - 0.3-1
 - 0.3 bump
 - Switch to Xft
