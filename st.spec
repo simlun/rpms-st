@@ -1,5 +1,5 @@
 Name:           st
-Version:        0.4
+Version:        0.4.1
 Release:        1%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
@@ -37,6 +37,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Tue Apr 23 2013 Petr Šabata <contyk@redhat.com> - 0.4.1-1
+- 0.4.1 bump
+
 * Tue Apr 02 2013 Petr Šabata <contyk@redhat.com> - 0.4-1
 - 0.4 bump
 - License change to MIT
