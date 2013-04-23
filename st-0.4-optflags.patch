@@ -1,0 +1,13 @@
+diff --git a/config.mk b/config.mk
+index 88355c7..3c67547 100644
+--- a/config.mk
++++ b/config.mk
+@@ -20,7 +20,7 @@ LIBS = -L/usr/lib -lc -L${X11LIB} -lX11 -lutil -lXext -lXft \
+ 
+ # flags
+ CPPFLAGS = -DVERSION=\"${VERSION}\" -D_BSD_SOURCE -D_XOPEN_SOURCE=600
+-CFLAGS += -g -std=c99 -pedantic -Wall -Wvariadic-macros -Os ${INCS} ${CPPFLAGS}
++CFLAGS += -std=c99 ${RPM_OPT_FLAGS} ${INCS} ${CPPFLAGS}
+ LDFLAGS += -g ${LIBS}
+ 
+ # compiler and linker
