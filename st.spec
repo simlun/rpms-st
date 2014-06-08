@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A simple terminal implementation for X
 Group:          User Interface/X
 License:        MIT
@@ -37,6 +37,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/applications
 
 %changelog
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Mon Apr 07 2014 Petr Šabata <contyk@redhat.com> - 0.5-1
 - 0.5 bump
 
