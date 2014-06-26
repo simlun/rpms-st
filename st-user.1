@@ -1,0 +1,54 @@
+.TH ST\-USER 1 st\-user\-VERSION\-RELEASE
+.SH NAME
+st\-user \- st reconfiguration helper and launcher script
+.SH SYNOPSIS
+.B st\-user
+.SH DESCRIPTION
+.BR st\-user
+is a helper script for running and reconfiguring
+.BR st
+if neccessarry.
+.P
+Running
+.BR st\-user
+starts the Fedora build by default.  If you wish to customize your
+configuration, put your
+.BR st
+configuration header file to $HOME/.st/config.h and adjust it according to
+your needs. The official Fedora configuration file might be a useful template.
+See the
+.BR FILES
+section of this manual.
+.P
+Every time the user configuration file has changed or new patches have
+been added,
+.BR st\-user
+will rebuild the user
+.BR st
+binary prior to its execution.
+.P
+Fedora utilizes
+.BR alternatives
+to choose whether the system build, also installed as
+.BR st\-fedora ,
+or the custom build is run.  If available, custom builds are preferred.
+.SH FILES
+.nf
+$HOME/.st
+    - User st directory
+$HOME/.st/config.h
+    - User st configuration
+$HOME/.st/patches
+    - Optional patches to apply
+/usr/src/st\-user\-VERSION\-RELEASE
+    - st sources
+/usr/src/st\-VERSION\-RELEASE/config.def.h
+    - Fedora build configuration
+.fi
+.SH SEE ALSO
+.BR st (1) ,
+.BR update-alternatives (8)
+.SH BUGS
+Report bugs to Red Hat Bugzilla, http://bugzilla.redhat.com/
+.SH AUTHOR
+Written by Petr Šabata <contyk@redhat.com>, 2014.

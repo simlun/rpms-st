@@ -1,0 +1,94 @@
+#!/bin/sh
+# MIT/X Consortium License
+#
+# 2014 Petr Šabata <contyk@redhat.com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+tool=st
+name=${tool}-user
+version=VERSION
+release=RELEASE
+bindir=~/.${tool}
+builddir=~/.${tool}-build
+sources=/usr/src/${name}-${version}-${release}
+config=${bindir}/config.h
+modified=${bindir}/modified
+buildver=${bindir}/version
+patches=${bindir}/patches
+patchmod=0
+
+function run_custom {
+    echo "${name}: Running user ${tool}..." 1>&2
+    ${bindir}/${tool}
+}
+
+function run_system {
+    echo "${name}: Running system ${tool}..." 1>&2
+    /usr/bin/${tool}-fedora
+}
+
+function rebuild {
+    if [ ! -d ${sources} ]; then
+        echo "${name}: Cannot find sources in ${sources}. Not rebuilding." 1>&2
+    else
+        echo "${name}: Rebuilding ${tool}..." 1>&2
+        rm -rf ${builddir}
+        cp -R ${sources} ${builddir}
+        [ -f ${config} ] && cp ${config} ${builddir}/config.h
+        cd ${builddir}
+        if [ -d ${patches} ]; then
+            echo "${name}: Applying patches to ${tool}..." 1>&2
+            find ${patches} -type f -name '*.diff' | sort | xargs -n1 patch -p1 -i
+        fi
+        make 2>&1 > ${builddir}/build.log
+        if [ "$?" -ne 0 ]; then
+            echo "${name}: Build failed.  See ${builddir}/build.log for details." 1>&2
+        else
+            echo "${name}: Build OK." 1>&2
+	    tic -s ${builddir}/${tool}.info 1>&2
+            mv ${builddir}/${tool} ${bindir}
+            cd $HOME
+            rm -rf ${builddir}
+            echo $(stat -c %Y "${bindir}/${tool}") > ${modified}
+            echo "${version}-${release}" > ${buildver}
+        fi
+    fi
+}
+
+mkdir -p ${bindir}
+if [ -f ${config} -o -d ${patches} ]; then
+    if [ -d ${patches} ]; then
+        patchmod=$(find ${patches} -type f -name '*.diff' -exec stat -c %Y {} \; | sort -r | head -n 1)
+        if [ "${patchod}" = "" ]; then
+            patchmod=0
+        fi
+    fi
+    configmod=$(stat -c %Y ${config})
+    if [ "${configmod}" = "" ]; then
+        configmod=0
+    fi
+    if [ ! -f ${modified} ] || [ "$(cat ${modified})" -lt "${configmod}" ] ||
+       [ "$(cat ${modified})" -lt "${patchmod}" ] || [ ! -f ${buildver} ] ||
+       [ "$(cat ${buildver})" != "${version}-${release}" ] || [ "$1" = '-f' ]; then
+        rebuild
+    fi
+fi
+[ -x ${bindir}/${tool} ] && run_custom || run_system
