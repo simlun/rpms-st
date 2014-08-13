@@ -37,12 +37,12 @@ patchmod=0
 
 function run_custom {
     echo "${name}: Running user ${tool}..." 1>&2
-    ${bindir}/${tool}
+    ${bindir}/${tool} $@
 }
 
 function run_system {
     echo "${name}: Running system ${tool}..." 1>&2
-    /usr/bin/${tool}-fedora
+    /usr/bin/${tool}-fedora $@
 }
 
 function rebuild {
@@ -91,4 +91,4 @@ if [ -f ${config} -o -d ${patches} ]; then
         rebuild
     fi
 fi
-[ -x ${bindir}/${tool} ] && run_custom || run_system
+[ -x ${bindir}/${tool} ] && run_custom $@ || run_system $@

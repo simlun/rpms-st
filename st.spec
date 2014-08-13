@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A simple terminal implementation for X
 
 %global         _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
@@ -97,6 +97,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Wed Aug 13 2014 Petr Šabata <contyk@redhat.com> - 0.5-4
+- Pass command line parameters to respective binaries in st-user (#1129557)
+
 * Thu Jun 26 2014 Petr Šabata <contyk@redhat.com> - 0.5-3
 - Introduce the `user' subpackage
 
