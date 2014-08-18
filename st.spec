@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.5
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        A simple terminal implementation for X
 
 %global         _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
@@ -97,6 +97,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Wed Aug 13 2014 Petr Šabata <contyk@redhat.com> - 0.5-4
 - Pass command line parameters to respective binaries in st-user (#1129557)
 
