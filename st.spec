@@ -1,6 +1,6 @@
 Name:           st
 Version:        0.5
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A simple terminal implementation for X
 
 %global         _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
@@ -97,6 +97,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
