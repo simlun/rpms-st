@@ -1,11 +1,8 @@
 Name:           st
 Version:        0.5
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        A simple terminal implementation for X
-
 %global         _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
-
-Group:          User Interface/X
 License:        MIT
 URL:            http://%{name}.suckless.org/
 Source0:        http://dl.suckless.org/%{name}/%{name}-%{version}.tar.gz
@@ -13,11 +10,16 @@ Source1:        %{name}.desktop
 Source2:        %{name}-user
 Source3:        %{name}-user.1
 Patch0:         %{name}-0.4-optflags.patch
+BuildRequires:  binutils
+BuildRequires:  coreutils
+BuildRequires:  gcc
+BuildRequires:  desktop-file-utils
 BuildRequires:  libX11-devel
 BuildRequires:  libXext-devel
 BuildRequires:  libXft-devel
+BuildRequires:  make
 BuildRequires:  ncurses
-BuildRequires:  desktop-file-utils
+BuildRequires:  sed
 Requires:       font(liberationmono)
 Requires(post): %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
@@ -30,7 +32,16 @@ Summary:        Sources and tools for user configuration of st
 Group:          User Interface/X
 License:        MIT
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       gcc, make, patch, libX11-devel, libXext-devel, libXft-devel, ncurses
+Requires:       binutils
+Requires:       coreutils
+Requires:       findutils
+Requires:       gcc
+Requires:       libX11-devel
+Requires:       libXext-devel
+Requires:       libXft-devel
+Requires:       make
+Requires:       ncurses
+Requires:       patch
 
 %description user
 Source files for st and a launcher/builder wrapper script for
@@ -84,7 +95,8 @@ if [ $1 -eq 0 ] ; then
 fi
 
 %files
-%doc LICENSE README TODO %{name}.info
+%license LICENSE
+%doc README TODO %{name}.info
 %ghost %{_bindir}/%{name}
 %{_bindir}/%{name}-fedora
 %{_mandir}/man1/%{name}.*
@@ -97,6 +109,10 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Thu Jun 25 2015 Petr Šabata <contyk@redhat.com> - 0.5-7
+- Correct the dep list
+- Modernize spec
+
 * Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
