@@ -1,47 +1,46 @@
-Name:           st
-Version:        0.5
-Release:        7%{?dist}
-Summary:        A simple terminal implementation for X
-%global         _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
-License:        MIT
-URL:            http://%{name}.suckless.org/
-Source0:        http://dl.suckless.org/%{name}/%{name}-%{version}.tar.gz
-Source1:        %{name}.desktop
-Source2:        %{name}-user
-Source3:        %{name}-user.1
-Patch0:         %{name}-0.4-optflags.patch
-BuildRequires:  binutils
-BuildRequires:  coreutils
-BuildRequires:  gcc
-BuildRequires:  desktop-file-utils
-BuildRequires:  libX11-devel
-BuildRequires:  libXext-devel
-BuildRequires:  libXft-devel
-BuildRequires:  make
-BuildRequires:  ncurses
-BuildRequires:  sed
-Requires:       font(liberationmono)
-Requires(post): %{_sbindir}/update-alternatives
+Name:             st
+Version:          0.6
+Release:          1%{?dist}
+Summary:          A simple terminal implementation for X
+%global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
+License:          MIT
+URL:              http://%{name}.suckless.org/
+Source0:          http://dl.suckless.org/%{name}/%{name}-%{version}.tar.gz
+Source1:          %{name}.desktop
+Source2:          %{name}-user
+Source3:          %{name}-user.1
+BuildRequires:    binutils
+BuildRequires:    coreutils
+BuildRequires:    gcc
+BuildRequires:    desktop-file-utils
+BuildRequires:    libX11-devel
+BuildRequires:    libXext-devel
+BuildRequires:    libXft-devel
+BuildRequires:    make
+BuildRequires:    ncurses
+BuildRequires:    sed
+Requires:         font(liberationmono)
+Requires(post):   %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
 
 %description
 A simple virtual terminal emulator for X which sucks less.
 
 %package user
-Summary:        Sources and tools for user configuration of st
-Group:          User Interface/X
-License:        MIT
-Requires:       %{name}%{?_isa} = %{version}-%{release}
-Requires:       binutils
-Requires:       coreutils
-Requires:       findutils
-Requires:       gcc
-Requires:       libX11-devel
-Requires:       libXext-devel
-Requires:       libXft-devel
-Requires:       make
-Requires:       ncurses
-Requires:       patch
+Summary:          Sources and tools for user configuration of st
+Group:            User Interface/X
+License:          MIT
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         binutils
+Requires:         coreutils
+Requires:         findutils
+Requires:         gcc
+Requires:         libX11-devel
+Requires:         libXext-devel
+Requires:         libXft-devel
+Requires:         make
+Requires:         ncurses
+Requires:         patch
 
 %description user
 Source files for st and a launcher/builder wrapper script for
@@ -49,13 +48,16 @@ customized configurations.
 
 %prep
 %setup -q
-%patch0 -p1
+sed -e "s!^\(CFLAGS.*$\)!\1 %{optflags}!" \
+    -e "s!^\(LDFLAGS.*$\)!\1 %{?__global_ldflags}!" \
+    -i config.mk
 
 %build
 make %{?_smp_mflags}
 
 %install
-mkdir -p %{buildroot}%{_datadir}/terminfo/s
+mkdir -p %{buildroot}%{_datadir}/terminfo
+export TERMINFO=%{buildroot}%{_datadir}/terminfo
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 mv %{buildroot}%{_bindir}/%{name}{,-fedora}
 install -pm755 %{SOURCE2} %{buildroot}%{_bindir}/%{name}-user
@@ -96,9 +98,10 @@ fi
 
 %files
 %license LICENSE
-%doc README TODO %{name}.info
+%doc FAQ LEGACY README TODO %{name}.info
 %ghost %{_bindir}/%{name}
 %{_bindir}/%{name}-fedora
+%{_datadir}/terminfo/s
 %{_mandir}/man1/%{name}.*
 %{_datadir}/applications
 
@@ -109,6 +112,10 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Wed Jul 08 2015 Petr Šabata <contyk@redhat.com> - 0.6-1
+- 0.6 bump
+- Stop silently discarding our terminfo
+
 * Thu Jun 25 2015 Petr Šabata <contyk@redhat.com> - 0.5-7
 - Correct the dep list
 - Modernize spec
