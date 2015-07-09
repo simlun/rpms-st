@@ -1,6 +1,6 @@
 Name:             st
 Version:          0.6
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
 License:          MIT
@@ -17,9 +17,9 @@ BuildRequires:    libX11-devel
 BuildRequires:    libXext-devel
 BuildRequires:    libXft-devel
 BuildRequires:    make
-BuildRequires:    ncurses
 BuildRequires:    sed
 Requires:         font(liberationmono)
+Requires:         ncurses-base
 Requires(post):   %{_sbindir}/update-alternatives
 Requires(postun): %{_sbindir}/update-alternatives
 
@@ -39,7 +39,6 @@ Requires:         libX11-devel
 Requires:         libXext-devel
 Requires:         libXft-devel
 Requires:         make
-Requires:         ncurses
 Requires:         patch
 
 %description user
@@ -51,13 +50,13 @@ customized configurations.
 sed -e "s!^\(CFLAGS.*$\)!\1 %{optflags}!" \
     -e "s!^\(LDFLAGS.*$\)!\1 %{?__global_ldflags}!" \
     -i config.mk
+# terminfo entries are provided by ncurses-base
+sed -e "/@tic/d" -i Makefile
 
 %build
 make %{?_smp_mflags}
 
 %install
-mkdir -p %{buildroot}%{_datadir}/terminfo
-export TERMINFO=%{buildroot}%{_datadir}/terminfo
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
 mv %{buildroot}%{_bindir}/%{name}{,-fedora}
 install -pm755 %{SOURCE2} %{buildroot}%{_bindir}/%{name}-user
@@ -101,7 +100,6 @@ fi
 %doc FAQ LEGACY README TODO %{name}.info
 %ghost %{_bindir}/%{name}
 %{_bindir}/%{name}-fedora
-%{_datadir}/terminfo/s
 %{_mandir}/man1/%{name}.*
 %{_datadir}/applications
 
@@ -112,6 +110,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Thu Jul 09 2015 Petr Šabata <contyk@redhat.com> - 0.6-2
+- Discard our terminfo again, it's provided by ncurses-base (#1241615)
+
 * Wed Jul 08 2015 Petr Šabata <contyk@redhat.com> - 0.6-1
 - 0.6 bump
 - Stop silently discarding our terminfo
