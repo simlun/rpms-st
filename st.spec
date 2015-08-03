@@ -1,6 +1,6 @@
 Name:             st
 Version:          0.6
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
 License:          MIT
@@ -101,7 +101,7 @@ fi
 %ghost %{_bindir}/%{name}
 %{_bindir}/%{name}-fedora
 %{_mandir}/man1/%{name}.*
-%{_datadir}/applications
+%{_datadir}/applications/%{name}.desktop
 
 %files user
 %ghost %{_bindir}/%{name}
@@ -110,6 +110,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Mon Aug 03 2015 Petr Šabata <contyk@redhat.com> - 0.6-3
+- Don't own the applications directory (#1249205)
+
 * Thu Jul 09 2015 Petr Šabata <contyk@redhat.com> - 0.6-2
 - Discard our terminfo again, it's provided by ncurses-base (#1241615)
 
