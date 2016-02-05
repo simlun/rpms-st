@@ -1,6 +1,6 @@
 Name:             st
 Version:          0.6
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
 License:          MIT
@@ -110,6 +110,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Mon Aug 03 2015 Petr Šabata <contyk@redhat.com> - 0.6-3
 - Don't own the applications directory (#1249205)
 
