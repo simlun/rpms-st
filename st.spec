@@ -1,6 +1,6 @@
 Name:             st
-Version:          0.6
-Release:          4%{?dist}
+Version:          0.7
+Release:          1%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
 License:          MIT
@@ -40,6 +40,7 @@ Requires:         libXext-devel
 Requires:         libXft-devel
 Requires:         make
 Requires:         patch
+Requires:         redhat-rpm-config
 
 %description user
 Source files for st and a launcher/builder wrapper script for
@@ -110,6 +111,10 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Fri Aug 12 2016 Petr Šabata <contyk@redhat.com> - 0.7-1
+- 0.7 bump
+- The user subpackage now properly requires redhat-rpm-config
+
 * Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
