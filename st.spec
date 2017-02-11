@@ -1,6 +1,6 @@
 Name:             st
 Version:          0.7
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
 License:          MIT
@@ -111,6 +111,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Fri Aug 12 2016 Petr Šabata <contyk@redhat.com> - 0.7-1
 - 0.7 bump
 - The user subpackage now properly requires redhat-rpm-config
