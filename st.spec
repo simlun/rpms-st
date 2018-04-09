@@ -1,6 +1,6 @@
 Name:             st
-Version:          0.7
-Release:          5%{?dist}
+Version:          0.8.1
+Release:          1%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
 License:          MIT
@@ -48,14 +48,11 @@ customized configurations.
 
 %prep
 %setup -q
-sed -e "s!^\(CFLAGS.*$\)!\1 %{optflags}!" \
-    -e "s!^\(LDFLAGS.*$\)!\1 %{?__global_ldflags}!" \
-    -i config.mk
 # terminfo entries are provided by ncurses-base
-sed -e "/@tic/d" -i Makefile
+sed -e "/tic .*st.info/d" -i Makefile
 
 %build
-make %{?_smp_mflags}
+CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" make %{?_smp_mflags}
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
@@ -111,6 +108,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Mon Apr 09 2018 Petr Šabata <contyk@redhat.com> - 0.8.1-1
+- 0.8.1 bump
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.7-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
