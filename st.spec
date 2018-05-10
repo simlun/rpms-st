@@ -1,6 +1,6 @@
 Name:             st
 Version:          0.8.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
 License:          MIT
@@ -67,7 +67,7 @@ sed -i -e 's/VERSION/%{version}/' \
        ${file}
 done
 mkdir -p %{buildroot}%{_stsourcedir}
-install -m644 arg.h config.def.h config.mk Makefile st.c st.info \
+install -m644 config.mk Makefile st.info *.h *.c \
     %{buildroot}%{_stsourcedir}
 touch %{buildroot}%{_bindir}/%{name}
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
@@ -108,6 +108,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Thu May 10 2018 Petr Šabata <contyk@redhat.com> - 0.8.1-2
+- Install all source files for st-user (rhbz#1574165)
+
 * Mon Apr 09 2018 Petr Šabata <contyk@redhat.com> - 0.8.1-1
 - 0.8.1 bump
 
