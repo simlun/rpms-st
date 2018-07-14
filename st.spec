@@ -1,6 +1,6 @@
 Name:             st
 Version:          0.8.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
 License:          MIT
@@ -108,6 +108,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Thu May 10 2018 Petr Šabata <contyk@redhat.com> - 0.8.1-2
 - Install all source files for st-user (rhbz#1574165)
 
