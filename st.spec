@@ -28,7 +28,6 @@ A simple virtual terminal emulator for X which sucks less.
 
 %package user
 Summary:          Sources and tools for user configuration of st
-Group:            User Interface/X
 License:          MIT
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 Requires:         binutils
