@@ -1,0 +1,9 @@
+#!/bin/bash -ex
+
+# Prerequisites:
+# $ sudo dnf install fedora-packager fedora-review @development-tools
+# $ sudo usermod -a -G mock `whoami`
+
+fedpkg clean
+fedpkg -v --release f30 --name st-simlun mockbuild
+find results_* -name '*.rpm'
