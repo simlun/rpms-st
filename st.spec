@@ -1,14 +1,17 @@
-Name:             st
+Name:             st-simlun
+Obsoletes:        st
+Provides:         st
+Conflicts:        st
 Version:          0.8.1
 Release:          4%{?dist}
 Summary:          A simple terminal implementation for X
-%global           _stsourcedir %{_usrsrc}/%{name}-user-%{version}-%{release}
+%global           _stsourcedir %{_usrsrc}/st-user-%{version}-%{release}
 License:          MIT
-URL:              http://%{name}.suckless.org/
-Source0:          http://dl.suckless.org/%{name}/%{name}-%{version}.tar.gz
-Source1:          %{name}.desktop
-Source2:          %{name}-user
-Source3:          %{name}-user.1
+URL:              http://st.suckless.org/
+Source0:          http://dl.suckless.org/st/st-%{version}.tar.gz
+Source1:          st.desktop
+Source2:          st-user
+Source3:          st-user.1
 BuildRequires:    binutils
 BuildRequires:    coreutils
 BuildRequires:    gcc
@@ -29,7 +32,7 @@ A simple virtual terminal emulator for X which sucks less.
 %package user
 Summary:          Sources and tools for user configuration of st
 License:          MIT
-Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         st-simlun%{?_isa} = %{version}-%{release}
 Requires:         binutils
 Requires:         coreutils
 Requires:         findutils
@@ -46,7 +49,7 @@ Source files for st and a launcher/builder wrapper script for
 customized configurations.
 
 %prep
-%setup -q
+%setup -n st-%{version}
 # terminfo entries are provided by ncurses-base
 sed -e "/tic .*st.info/d" -i Makefile
 
@@ -55,12 +58,13 @@ CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" make %{?_smp_mflags}
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
-mv %{buildroot}%{_bindir}/%{name}{,-fedora}
-install -pm755 %{SOURCE2} %{buildroot}%{_bindir}/%{name}-user
-install -Dpm644 %{SOURCE3} %{buildroot}%{_mandir}/man1/%{name}-user.1
+chmod 755 %{buildroot}%{_prefix}/bin/st
+mv %{buildroot}%{_bindir}/st{,-fedora}
+install -pm755 %{SOURCE2} %{buildroot}%{_bindir}/st-user
+install -Dpm644 %{SOURCE3} %{buildroot}%{_mandir}/man1/st-user.1
 for file in \
-    %{buildroot}%{_bindir}/%{name}-user \
-    %{buildroot}%{_mandir}/man1/%{name}-user.1; do
+    %{buildroot}%{_bindir}/st-user \
+    %{buildroot}%{_mandir}/man1/st-user.1; do
 sed -i -e 's/VERSION/%{version}/' \
        -e 's/RELEASE/%{release}/' \
        ${file}
@@ -68,42 +72,42 @@ done
 mkdir -p %{buildroot}%{_stsourcedir}
 install -m644 config.mk Makefile st.info *.h *.c \
     %{buildroot}%{_stsourcedir}
-touch %{buildroot}%{_bindir}/%{name}
+touch %{buildroot}%{_bindir}/st
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
 %pre
-[ -L %{_bindir}/%{name} ] || rm -f %{_bindir}/%{name}
+[ -L %{_bindir}/st ] || rm -f %{_bindir}/st
 
 %post
-%{_sbindir}/update-alternatives --install %{_bindir}/%{name} %{name} \
-    %{_bindir}/%{name}-fedora 10
+%{_sbindir}/update-alternatives --install %{_bindir}/st st \
+    %{_bindir}/st-fedora 10
 
 %postun
 if [ $1 -eq 0 ] ; then
-    %{_sbindir}/update-alternatives --remove %{name} %{_bindir}/%{name}-fedora
+    %{_sbindir}/update-alternatives --remove st %{_bindir}/st-fedora
 fi
 
 %post user
-%{_sbindir}/update-alternatives --install %{_bindir}/%{name} %{name} \
-    %{_bindir}/%{name}-user 20
+%{_sbindir}/update-alternatives --install %{_bindir}/st st \
+    %{_bindir}/st-user 20
 
 %postun user
 if [ $1 -eq 0 ] ; then
-    %{_sbindir}/update-alternatives --remove %{name} %{_bindir}/%{name}-user
+    %{_sbindir}/update-alternatives --remove st %{_bindir}/st-user
 fi
 
 %files
 %license LICENSE
-%doc FAQ LEGACY README TODO %{name}.info
-%ghost %{_bindir}/%{name}
-%{_bindir}/%{name}-fedora
-%{_mandir}/man1/%{name}.*
-%{_datadir}/applications/%{name}.desktop
+%doc FAQ LEGACY README TODO st.info
+%ghost %{_bindir}/st
+%{_bindir}/st-fedora
+%{_mandir}/man1/st.*
+%{_datadir}/applications/st.desktop
 
 %files user
-%ghost %{_bindir}/%{name}
-%{_bindir}/%{name}-user
-%{_mandir}/man1/%{name}-user.*
+%ghost %{_bindir}/st
+%{_bindir}/st-user
+%{_mandir}/man1/st-user.*
 %{_stsourcedir}
 
 %changelog
