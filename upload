@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+NAME=st-simlun
+V=0.8.1
+R=4.1.fc30
+VERSION="${V}-${R}"
+echo "Please create the package and version first at:"
+echo "https://bintray.com/simlun/fedora"
+echo
+echo "Enter the Bintray API key:"
+read -s API_KEY
+curl --verbose -T "${NAME}-${VERSION}.src.rpm" -usimlun:${API_KEY} "https://api.bintray.com/content/simlun/fedora/${NAME}/${VERSION}/${NAME}-${VERSION}.src.rpm"
+curl --verbose -T "results_${NAME}/${V}/${R}/${NAME}-${VERSION}.x86_64.rpm" -usimlun:${API_KEY} "https://api.bintray.com/content/simlun/fedora/${NAME}/${VERSION}/${NAME}-${VERSION}.x86_64.rpm"
+
+echo
+echo "Now go to Bintray and publish them!"
