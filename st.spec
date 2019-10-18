@@ -3,7 +3,7 @@ Obsoletes:        st
 Provides:         st
 Conflicts:        st
 Version:          0.8.1
-Release:          4%{?dist}
+Release:          4.1%{?dist}
 Summary:          A simple terminal implementation for X
 %global           _stsourcedir %{_usrsrc}/st-user-%{version}-%{release}
 License:          MIT
@@ -112,6 +112,9 @@ fi
 %{_stsourcedir}
 
 %changelog
+* Fri Oct 18 2019 Simon Lundmark <simon.lundmark@gmail.com> - 0.8.1-4.1
+- Configured the base16 Solarized Light color theme
+
 * Sun Feb 03 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.1-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
