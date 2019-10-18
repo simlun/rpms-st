@@ -12,7 +12,7 @@ Source0:          http://dl.suckless.org/st/st-%{version}.tar.gz
 Source1:          st.desktop
 Source2:          st-user
 Source3:          st-user.1
-Source4:          config.simlun.h
+Patch0:           base16-solarized-light.diff
 BuildRequires:    binutils
 BuildRequires:    coreutils
 BuildRequires:    gcc
@@ -53,7 +53,6 @@ customized configurations.
 %setup -n st-%{version}
 # terminfo entries are provided by ncurses-base
 sed -e "/tic .*st.info/d" -i Makefile
-cp -v %{SOURCE4} config.h
 
 %build
 CFLAGS="%{optflags}" LDFLAGS="%{?__global_ldflags}" make %{?_smp_mflags}
